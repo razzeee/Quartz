@@ -125,9 +125,14 @@ end
 
 function QuartzStatusBar:SetStatusBarColor(r, g, b, a)
 	if not (r and g and b) then
-		error("Usage: SetStatusBarColor(r, g, b[, a])", 2)
+		if type(r) == "table" then
+			self.__color = r
+		else
+			error("Usage: SetStatusBarColor(r, g, b[, a])", 2)
+		end
+	else
+		self.__color = {r, g, b, a}
 	end
-	self.__color = {r, g, b, a}
 	DrawBar(self)
 end
 

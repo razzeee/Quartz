@@ -257,15 +257,15 @@ local spellTimeDecreases = {
 
 local function getTrollBerserkHaste(unit)
     local perc = UnitHealth(unit)/UnitHealthMax(unit)
-    local speed = min((1.3 - perc)/3, .15) + 1
+    local speed = math.min((1.3 - perc)/2, 0.3) + 1
     return speed
 end
 
 local function getSpelldHaste(unit)
     local positiveMul = 1
     for i=1, 100 do
-        local tex, _, spellID = UnitBuff(unit, i)
-        if not tex then return positiveMul end
+        local _, _, spellID = UnitBuff(unit, i)
+        if not spellID then break end
         if spellTimeDecreases[spellID] or spellID == 26635 then
             positiveMul = positiveMul * (spellTimeDecreases[spellID] or getTrollBerserkHaste(unit))
         end
@@ -305,6 +305,7 @@ end
 local function checkPlayerBuff(spellId)
 	for i = 1, 100 do
 		local _, _, id = UnitBuff("player", i)
+		if not id then break end
 		if spellId == id then
 			return true
 		end
