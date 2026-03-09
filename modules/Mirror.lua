@@ -483,10 +483,7 @@ do
 		local external = Mirror.ExternalTimers
 		for name, v in pairs(external) do
 			local endTime = v.endTime
-			if not v.startTime or not endTime then
-				error("bad custom table")
-			end
-			if endTime > currentTime then
+			if v.startTime and endTime and endTime > currentTime then
 				local t = new()
 				tmp[getn(tmp)+1] = t
 				t.name = name
@@ -498,7 +495,7 @@ do
 				if v.color then
 					t.color = v.color
 				end
-			else
+			elseif v.startTime and endTime then
 				external[name] = del(v)
 			end
 		end
