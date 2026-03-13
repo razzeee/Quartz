@@ -522,6 +522,7 @@ do
 
 end
 function Mirror:CHAT_MSG_BG_SYSTEM_NEUTRAL(event, msg)
+	if not msg then return end
 	if msg:match(L["1 minute"]) or msg:match(L["One minute until"]) then
 		gametimebase = GetTime()
 		gametimetostart = 60
